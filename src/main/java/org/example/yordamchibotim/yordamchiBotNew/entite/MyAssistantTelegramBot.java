@@ -99,7 +99,14 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
 
     }
 
-
+///https://github.com/shakarovotamurod/murojatnoma.git
+   /* echo "# murojatnoma" >> README.md
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin https://github.com/shakarovotamurod/murojatnoma.git
+    git push -u origin main*/
     public void setMessageAdmin(String username, String firstName, String userMessage, long userChatId) {
         // Admin uchun xabar
         String messageToAdmin = "📩 Yangi xabar!\n\n" +
