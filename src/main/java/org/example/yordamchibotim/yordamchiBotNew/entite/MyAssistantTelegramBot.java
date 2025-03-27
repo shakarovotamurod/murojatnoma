@@ -27,10 +27,6 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
     private static long chatIdAdmin;
     private static final Map<Long, Long> adminReplyMap = new HashMap<>(); // Admin kimga javob yozayotganini saqlaydi
 
-    /*
-       public MyAssistantTelegramBot(TelegramBotsApi telegramBotsApi) {
-        this.botServics=botServics;
-    }  */
 
     @Override
     public String getBotUsername() {
@@ -58,7 +54,7 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
                 chatIdAdmin = chatId;
                 String textt = "Men siz uchun Hizmat qilishiman husandman ;) \n mendan foydalangan foydalanuvchilar xabarini sizga yuboraman!";
                 sendMessage(textt, chatId);
-            } else if (chatId != chatIdAdmin) setMessageAdmin(firsname,username, text, chatId);
+            } else if (chatId != chatIdAdmin) setMessageAdmin(firsname, username, text, chatId);
 
         } else if (update.hasMessage()) {
             long chatId = update.getMessage().getChatId();
@@ -76,7 +72,8 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-    public void sendMessage(InlineKeyboardMarkup markup,String text, long chatId) {
+
+    public void sendMessage(InlineKeyboardMarkup markup, String text, long chatId) {
         SendMessage message = new SendMessage(String.valueOf(chatId), text);
         message.setReplyMarkup(markup);
         try {
@@ -86,32 +83,7 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-   /* public void sedMessegAdmin(String firsName ,String userName, String text, long chatId) {
-        // Admin chatiga xabar yuborish
-        String messageToAdmin = "📩 Yangi xabar!\n\n" +
-                "👤 Foydalanuvchi nomi: " + firsName + "\n" +
-                "👤 Foydalanuvchi boglanish: " + userName + "\n" +
-                "📝 Xabar: " + text + "\n\n" +
-                "🔄 Ushbu xabarga javob berish uchun:\n" +
-                "👉 ->" + chatId + ": javob xabari`<- shu ko'rinishda yuboring.";
-        sendMessage(messageToAdmin, chatIdAdmin);
-    }
-*/
-    /*
-   // --> bu admindan habarni oladi va va userga jo'natadi---
-    public void getMessageAdmin(String text) {
-        String[] parts = text.split(":", 2);
-        try {
-            long userId = Long.parseLong(parts[0].trim());
-            String responseMessage = parts[1].trim();
 
-            // Javobni foydalanuvchiga yuborish
-            sendMessage("🔔 Admin javobi:\n" + responseMessage, userId);
-            sendMessage("✅ Javob yuborildi foydalanuvchiga: " + userId, chatIdAdmin);
-        } catch (NumberFormatException e) {
-            sendMessage("❌ Xato format! Iltimos, ' chatId: xabar '  Chat ID noto‘g‘ri.", chatIdAdmin);
-        }
-    }*/
     public void getMessageAdmin(String text) {
         if (adminReplyMap.containsKey(chatIdAdmin)) {
             long userChatId = adminReplyMap.get(chatIdAdmin);
@@ -126,40 +98,17 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
         }
 
     }
-        /*if (callbackData.startsWith("reply_")) {
-            long userChatId = Long.parseLong(callbackData.split("_")[1]);
-
-            // Adminga xabar jo‘natish (U endi foydalanuvchiga javob yozishi mumkin)
-            sendMessage("✏️ Javob yozing va u foydalanuvchiga yuboriladi.", chatIdAdmin);
-            adminReplyMap.put(chatIdAdmin, userChatId); // Adminga javob yozayotgan foydalanuvchini bog‘lash
-        }*/
 
 
-    /* public void getMessageAdmin(String text) {
-    bu 1-Varyanti adminga habar yuborish uchun:<----
-        String[] parts = text.split(":", 2);
-        try {
-            long userId = Long.parseLong(parts[0].trim());
-            String responseMessage = parts[1].trim();
-
-            // Javobni foydalanuvchiga yuborish
-            sendMessage("🔔 Admin javobi:\n" + responseMessage, userId);
-            sendMessage("✅ Javob yuborildi foydalanuvchiga: " + userId, chatIdAdmin);
-        } catch (NumberFormatException e) {
-            sendMessage("❌ Xato format! Iltimos, ' chatId: xabar '  Chat ID noto‘g‘ri.", chatIdAdmin);
-        }
-    }*/
-
-    public void setMessageAdmin(String username,String firstName,String userMessage, long userChatId) {
+    public void setMessageAdmin(String username, String firstName, String userMessage, long userChatId) {
         // Admin uchun xabar
         String messageToAdmin = "📩 Yangi xabar!\n\n" +
                 "👤 Ism: " + firstName + "\n" +
                 "📌 Username: @" + username + "\n" +
-                "🆔 Foydalanuvchi ID: " + userChatId + "\n" +
-                "📝 Xabar: " + userMessage;
+                "📝 foydalanuvchi xabari : \n " + userMessage;
 
         // Inline button yaratish (Foydalanuvchiga javob yozish uchun)
-         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
         InlineKeyboardButton replyButton = new InlineKeyboardButton();
@@ -170,8 +119,9 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
         row.add(replyButton);
         keyboard.add(row);
         inlineKeyboardMarkup.setKeyboard(keyboard);
-        sendMessage(inlineKeyboardMarkup , messageToAdmin, chatIdAdmin);
+        sendMessage(inlineKeyboardMarkup, messageToAdmin, chatIdAdmin);
     }
+
     public void handleCallbackQuery(Update update) {
         if (update.hasCallbackQuery()) {
             String callbackData = update.getCallbackQuery().getData();
