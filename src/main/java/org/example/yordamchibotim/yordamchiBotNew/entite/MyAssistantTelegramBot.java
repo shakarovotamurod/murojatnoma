@@ -26,15 +26,15 @@ import java.util.Map;
 public class MyAssistantTelegramBot extends TelegramLongPollingBot {
     private static long chatIdAdmin;
     private static final Map<Long, Long> adminReplyMap = new HashMap<>(); // Admin kimga javob yozayotganini saqlaydi
-
+   private static String firsname;
 
     @Override
     public String getBotUsername() {
-        return "@soriybot";
+        return "TTYSIanticorbot";
     }
 
     public MyAssistantTelegramBot(TelegramBotsApi telegramBotsApi) throws TelegramApiException {
-        super("6516572320:AAFeNKMObwr01bwEgmAHxdlkDtad5nEYlsI");
+        super("7315075026:AAEFaKXrMOwG7QgHHvRoNGIXd2MCqpIuTew");
         telegramBotsApi.registerBot(this);
     }
 
@@ -43,13 +43,14 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             long chatId = update.getMessage().getChatId();
             String text = update.getMessage().getText();
-            String firsname = update.getMessage().getFrom().getFirstName();
+             firsname = update.getMessage().getFrom().getFirstName();
             String username = update.getMessage().getFrom().getUserName();
             if (username == null) username = "Yo'q";
 
             if (chatId == chatIdAdmin) {
                 getMessageAdmin(text);
             }
+            if (text.equals("/start")){ sendMessage("Assalomu aleykum siz TTYSI Korrupsiyaga qarshi kurashish \"Komplayens-nazorat\" tizimini boshqarish bo'limiga murojaat qilishingiz mumkin! Shaxsingiz daxlsizligi kafolatlanadi! Murojatingizni qoldiring .",chatId);}
             if (text.equals("Pas_12042002")) {
                 chatIdAdmin = chatId;
                 String textt = "Men siz uchun Hizmat qilishiman husandman ;) \n mendan foydalangan foydalanuvchilar xabarini sizga yuboraman!";
@@ -99,20 +100,12 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
 
     }
 
-///https://github.com/shakarovotamurod/murojatnoma.git
-   /* echo "# murojatnoma" >> README.md
-    git init
-    git add README.md
-    git commit -m "first commit"
-    git branch -M main
-    git remote add origin https://github.com/shakarovotamurod/murojatnoma.git
-    git push -u origin main*/
     public void setMessageAdmin(String username, String firstName, String userMessage, long userChatId) {
         // Admin uchun xabar
-        String messageToAdmin = "📩 Yangi xabar!\n\n" +
+        String messageToAdmin =
                 "👤 Ism: " + firstName + "\n" +
                 "📌 Username: @" + username + "\n" +
-                "📝 foydalanuvchi xabari : \n " + userMessage;
+                "📝 Qoldirilgan xabar : \n " + userMessage;
 
         // Inline button yaratish (Foydalanuvchiga javob yozish uchun)
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -138,7 +131,7 @@ public class MyAssistantTelegramBot extends TelegramLongPollingBot {
                 long userChatId = Long.parseLong(callbackData.split("_")[1]);
 
                 // Adminga xabar jo‘natish (U endi foydalanuvchiga javob yozishi mumkin)
-                sendMessage("✏️ Javob yozing va u foydalanuvchiga yuboriladi.", adminChatId);
+                sendMessage("✏️ Javob yozing va u "+firsname+"ga yuboriladi.", adminChatId);
                 adminReplyMap.put(adminChatId, userChatId); // Adminga javob yozayotgan foydalanuvchini bog‘lash
             }
         }
